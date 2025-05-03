@@ -76,13 +76,28 @@ defmodule SMF.Event do
   end
 
   def parse(<<0xFF, 0x01, rest::binary>>) do
-    case VLQ.decode(rest) do
-      {:ok, len, more} ->
-        <<text::bytes-size(len), left::binary>> = more
-        {%{type: :text, text: text}, left}
+    case VLQ.decode_and_split(rest) do
+      {:ok, text, left} -> {%{type: :text, text: text}, left}
+      err -> err
+    end
+  end
 
-      err ->
-        err
+  def parse(<<0xFF, 0x03, rest::binary>>) do
+    case VLQ.decode_and_split(rest) do
+      {:ok, tn, left} -> {%{type: :track_name, name: tn}, left}
+      err -> err
+    end
+  end
+
+  def parse(<<0xFF, 0x20, 0x01, cc::integer, rest::binary>>) do
+    {%{type: :channel_prefix, channel: cc}, rest}
+  end
+
+  # TODO: Figure out what this is
+  def parse(<<0xFF, 0x21, rest::binary>>) do
+    case VLQ.decode_and_split(rest) do
+      {:ok, uk, left} -> {%{type: :unknown, value: uk}, left}
+      err -> err
     end
   end
 
