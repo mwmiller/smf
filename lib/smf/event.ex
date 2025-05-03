@@ -10,7 +10,9 @@ defmodule SMF.Event do
   Parse an event into a useful structure
   Returns {event, unused data}
   """
-
+  # The weird variety of ways in which the pattern matches are written has
+  # to do with the source document used.  I might clean up later.
+  # Who am I kidding?
   def parse(
         <<1::1, 0::1, 0::1, switch::1, channel::integer-4, note::integer-7, 0::1,
           velocity::integer-7, rest::binary>>
@@ -32,7 +34,7 @@ defmodule SMF.Event do
   end
 
   def parse(
-        <<1::1, 0::1, 1::1, 1::1, channel::integer-4, 0::1, value::integer-7, 0::1,
+        <<1::1, 0::1, 1::1, 1::1, channel::integer-4, 0::1, controller::integer-7, 0::1,
           value::integer-7, rest::binary>>
       ) do
     # Deal with mode changes on reserved channels
@@ -45,10 +47,10 @@ defmodule SMF.Event do
         {125, 0} -> %{type: :channel_mode, omni_mode: :off, all_notes: :off}
         {126, m} -> %{type: :channel_mode, mono_mode: :on, channel_count: m, all_notes: :off}
         {127, 0} -> %{type: :channel_mode, mono_mode: :off, all_notes: :off}
-        {_, c} -> %{type: :control_change, controller: c}
+        {_, v} -> %{type: :control_change, value: v}
       end
 
-    {Map.merge(chan_msg, %{channel: channel}), rest}
+    {Map.merge(chan_msg, %{channel: channel, controller: controller}), rest}
   end
 
   def parse(
@@ -118,7 +120,7 @@ defmodule SMF.Event do
   end
 
   def parse(<<0xFF, 0x51, 0x03, tempo::integer-24, rest::binary>>) do
-    {%{type: :set_tempo, μs_per_quater: tempo}, rest}
+    {%{type: :set_tempo, μs_per_quarter: tempo}, rest}
   end
 
   def parse(
