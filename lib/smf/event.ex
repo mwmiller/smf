@@ -70,9 +70,13 @@ defmodule SMF.Event do
     {%{type: :pitch_wheel_change, channel: channel, value: bsr(msb, 7) + lsb}, rest}
   end
 
-  def parse(<<0xF0, 0::1, system_id::integer-7, rest::binary>>) do
-    {msgs, actual_rest} = gather_system_exclusive(rest, [])
-    {%{type: :system_exclusive, system_id: system_id, messages: msgs}, actual_rest}
+  def parse(<<0xF0, rest::binary>>) do
+    case VLQ.decode_and_split(rest) do
+      # It should end with 0xF7.  I'm not sure if
+      # Postel's Law applies here.
+      {:ok, data, left} -> {%{type: :system_exclusive, data: data}, left}
+      err -> err
+    end
   end
 
   def parse(<<0xFF, 0x01, rest::binary>>) do
@@ -162,9 +166,4 @@ defmodule SMF.Event do
         err
     end
   end
-
-  defp gather_system_exclusive(<<0xF7, rest::binary>>, acc), do: {Enum.reverse(acc), rest}
-
-  defp gather_system_exclusive(<<msg::integer, rest::binary>>, acc),
-    do: gather_system_exclusive(rest, [msg | acc])
 end
