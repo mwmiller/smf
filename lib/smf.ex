@@ -54,7 +54,7 @@ defmodule SMF do
     )
   end
 
-  defp parse_events(<<>>, acc), do: Enum.reverse(acc) |> IO.inspect()
+  defp parse_events(<<>>, acc), do: Enum.reverse(acc)
 
   defp parse_events(data, acc) do
     case VLQ.decode(data) do

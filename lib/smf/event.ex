@@ -14,7 +14,7 @@ defmodule SMF.Event do
   # to do with the source document used.  I might clean up later.
   # Who am I kidding?
   def parse(
-        <<1::1, 0::1, 0::1, switch::1, channel::integer-4, note::integer-7, 0::1,
+        <<1::1, 0::1, 0::1, switch::1, channel::integer-4, 0::1, note::integer-7, 0::1,
           velocity::integer-7, rest::binary>>
       ) do
     type =
@@ -140,6 +140,8 @@ defmodule SMF.Event do
     s_or_f =
       cond do
         sf == 0 -> "key of C"
+        sf == -1 -> "1 flat"
+        sf == 1 -> "1 sharp"
         sf < 0 -> "#{abs(sf)} flats"
         sf > 0 -> "#{sf} sharps"
       end
