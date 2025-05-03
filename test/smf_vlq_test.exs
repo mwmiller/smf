@@ -26,6 +26,20 @@ defmodule SMFVLQTest do
              {:error, "Error decoding variable length quantity"}
   end
 
+  test "decode and split binary" do
+    assert VLQ.decode_and_split(<<0x00>>) == {:ok, "", ""}
+    assert VLQ.decode_and_split(<<0x00, "extra">>) == {:ok, "", "extra"}
+    assert VLQ.decode_and_split(<<0x01, "extra">>) == {:ok, "e", "xtra"}
+    assert VLQ.decode_and_split(<<0x02, "extra">>) == {:ok, "ex", "tra"}
+    assert VLQ.decode_and_split(<<0x05, "extra">>) == {:ok, "extra", ""}
+
+    assert VLQ.decode_and_split(<<0x06, "extra">>) ==
+             {:error, "Cannot split length 5 binary at 6"}
+
+    assert VLQ.decode_and_split(<<0xFF, 0xFF, 0xFF, 0x8F, "and so much more!">>) ==
+             {:error, "Error decoding variable length quantity"}
+  end
+
   test "encode variable length quantities" do
     assert VLQ.encode(0x00) == <<0x00>>
     assert VLQ.encode(0x40) == <<0x40>>

@@ -28,6 +28,23 @@ defmodule SMF.VLQ do
   def decode(_), do: {:error, "Error decoding variable length quantity"}
 
   @doc """
+  A convenience wrapper for situations where we know the data immediately follows
+  Returns {data of indicated length, rest}
+  """
+  def decode_and_split(data) do
+    with {:ok, len, rest} <- decode(data) do
+      try do
+        <<them::binary-size(len), left::binary>> = rest
+        {:ok, them, left}
+      rescue
+        MatchError -> {:error, "Cannot split length #{byte_size(rest)} binary at #{len}"}
+      end
+    else
+      err -> err
+    end
+  end
+
+  @doc """
   Encode a positive integer into up to 4 bytes.
   On success: <<bytes>>
   On failure: {:error,reason}
