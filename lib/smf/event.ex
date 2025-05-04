@@ -1,6 +1,6 @@
 defmodule SMF.Event do
   import Bitwise
-  alias SMF.{VLQ, KeySignature, Notes, GMInstruments}
+  alias SMF.{VLQ, KeySignature, Notes, GMInstruments, GMController}
 
   @moduledoc """
   Interpreting track events
@@ -34,23 +34,11 @@ defmodule SMF.Event do
   end
 
   def parse(
-        <<1::1, 0::1, 1::1, 1::1, channel::integer-4, 0::1, controller::integer-7, 0::1,
-          value::integer-7, rest::binary>>
+        <<1::1, 0::1, 1::1, 1::1, channel::integer-4, 0::1, controller::integer-7, value,
+          rest::binary>>
       ) do
-    # Deal with mode changes on reserved channels
-    chan_msg =
-      case {channel, value} do
-        {122, 0} -> %{type: :channel_mode, local_mode: :off}
-        {122, 127} -> %{type: :channel_mode, local_mode: :on}
-        {123, 0} -> %{type: :channel_mode, all_notes_off: :off}
-        {124, 0} -> %{type: :channel_mode, omni_mode: :on, all_notes: :off}
-        {125, 0} -> %{type: :channel_mode, omni_mode: :off, all_notes: :off}
-        {126, m} -> %{type: :channel_mode, mono_mode: :on, channel_count: m, all_notes: :off}
-        {127, 0} -> %{type: :channel_mode, mono_mode: :off, all_notes: :off}
-        {_, v} -> %{type: :control_change, value: v}
-      end
-
-    {Map.merge(chan_msg, %{channel: channel, controller: controller}), rest}
+    controller_msg = GMController.describe_change(controller, <<value>>)
+    {Map.merge(controller_msg, %{channel: channel, controller: controller}), rest}
   end
 
   def parse(

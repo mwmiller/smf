@@ -1,0 +1,128 @@
+Bank Select	0-127	MSB
+Modulation wheel	0-127	MSB
+Breath control	0-127	MSB
+Undefined	0-127	MSB
+Foot controller	0-127	MSB
+Portamento time	0-127	MSB
+Data Entry	0-127	MSB
+Channel Volume (formerly Main Volume)	0-127	MSB
+Balance	0-127	MSB
+Undefined	0-127	MSB
+Pan	0-127	MSB
+Expression Controller	0-127	MSB
+Effect control 1	0-127	MSB
+Effect control 2	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+General Purpose Controller #1	0-127	MSB
+General Purpose Controller #2	0-127	MSB
+General Purpose Controller #3	0-127	MSB
+General Purpose Controller #4	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+Undefined	0-127	MSB
+Bank Select	0-127	LSB
+Modulation wheel	0-127	LSB
+Breath control	0-127	LSB
+Undefined	0-127	LSB
+Foot controller	0-127	LSB
+Portamento time	0-127	LSB
+Data entry	0-127	LSB
+Channel Volume (formerly Main Volume)	0-127	LSB
+Balance	0-127	LSB
+Undefined	0-127	LSB
+Pan	0-127	LSB
+Expression Controller	0-127	LSB
+Effect control 1	0-127	LSB
+Effect control 2	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+General Purpose Controller #1	0-127	LSB
+General Purpose Controller #2	0-127	LSB
+General Purpose Controller #3	0-127	LSB
+General Purpose Controller #4	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Damper pedal on/off (Sustain)	<63=off	>64=on
+Portamento on/off	<63=off	>64=on
+Sustenuto on/off	<63=off	>64=on
+Soft pedal on/off	<63=off	>64=on
+Legato Footswitch	<63=off	>64=on
+Hold 2	<63=off	>64=on
+Sound Controller 1 (Sound Variation)	0-127	LSB
+Sound Controller 2 (Timbre)	0-127	LSB
+Sound Controller 3 (Release Time)	0-127	LSB
+Sound Controller 4 (Attack Time)	0-127	LSB
+Sound Controller 5 (Brightness)	0-127	LSB
+Sound Controller 6	0-127	LSB
+Sound Controller 7	0-127	LSB
+Sound Controller 8	0-127	LSB
+Sound Controller 9	0-127	LSB
+Sound Controller 10	0-127	LSB
+General Purpose Controller #5	0-127	LSB
+General Purpose Controller #6	0-127	LSB
+General Purpose Controller #7	0-127	LSB
+General Purpose Controller #8	0-127	LSB
+Portamento Control	0-127	Source Note
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Undefined	0-127	LSB
+Effects 1 Depth	0-127	LSB
+Effects 2 Depth	0-127	LSB
+Effects 3 Depth	0-127	LSB
+Effects 4 Depth	0-127	LSB
+Effects 5 Depth	0-127	LSB
+Data entry +1	N/A	?
+Data entry -1	N/A	?
+Non-Registered Parameter Number LSB	0-127	LSB
+Non-Registered Parameter Number MSB	0-127	MSB
+Registered Parameter Number LSB	0-127	LSB
+Registered Parameter Number MSB	0-127	MSB
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+Undefined	?	?
+All Sound Off	0	?
+Reset All Controllers	0	?
+Local control on/off	0=off	127=on
+All notes off	0	?
+Omni mode off (+ all notes off)	0	?
+Omni mode on (+ all notes off)	0	?
+Poly mode on/off (+ all notes off)	0-127	MSB
+Poly mode on (incl mono=off +all notes off)	0	?
