@@ -23,7 +23,7 @@ defmodule SMF.Event do
         1 -> :noteon
       end
 
-    {%{type: type, channel: channel, note: Notes.decode(note), velocity: velocity}, rest}
+    {%{type: type, channel: channel, note: Notes.decode(note, channel), velocity: velocity}, rest}
   end
 
   def parse(
