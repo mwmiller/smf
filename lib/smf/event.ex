@@ -1,6 +1,6 @@
 defmodule SMF.Event do
   import Bitwise
-  alias SMF.VLQ
+  alias SMF.{VLQ, KeySignature}
 
   @moduledoc """
   Interpreting track events
@@ -137,22 +137,7 @@ defmodule SMF.Event do
   end
 
   def parse(<<0xFF, 0x59, 0x02, sf::signed-integer, mi::integer, rest::binary>>) do
-    s_or_f =
-      cond do
-        sf == 0 -> "key of C"
-        sf == -1 -> "1 flat"
-        sf == 1 -> "1 sharp"
-        sf < 0 -> "#{abs(sf)} flats"
-        sf > 0 -> "#{sf} sharps"
-      end
-
-    maj_min =
-      case mi do
-        0 -> "major"
-        1 -> "minor"
-      end
-
-    {%{type: :key_signature, signature: "#{s_or_f} #{maj_min}"}, rest}
+    {%{type: :key_signature, signature: KeySignature.decode(sf, mi)}, rest}
   end
 
   def parse(<<0xFF, 0x7F, rest::binary>>) do
