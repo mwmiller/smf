@@ -1,6 +1,6 @@
 defmodule SMF.Event do
   import Bitwise
-  alias SMF.{VLQ, KeySignature}
+  alias SMF.{VLQ, KeySignature, Notes}
 
   @moduledoc """
   Interpreting track events
@@ -23,7 +23,7 @@ defmodule SMF.Event do
         1 -> :noteon
       end
 
-    {%{type: type, channel: channel, note: note, velocity: velocity}, rest}
+    {%{type: type, channel: channel, note: Notes.decode(note), velocity: velocity}, rest}
   end
 
   def parse(
