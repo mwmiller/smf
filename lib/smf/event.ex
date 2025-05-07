@@ -23,7 +23,13 @@ defmodule SMF.Event do
         1 -> :noteon
       end
 
-    {%{type: type, channel: channel, note: Notes.decode(note, channel), velocity: velocity}, rest}
+    {%{
+       type: type,
+       channel: channel,
+       note: note,
+       info: Notes.decode(note, channel),
+       velocity: velocity
+     }, rest}
   end
 
   def parse(
@@ -102,8 +108,8 @@ defmodule SMF.Event do
 
   def parse(<<0xFF, 0x2F, 0x00>>), do: {%{type: :end_of_track}, <<>>}
 
-  # TODO: this was poorly documentedin my source
-  # Figure out prporer parsing and meaning of, well, everything
+  # TODO: this was poorly documented in my source
+  # Figure out proper parsing and meaning of, well, everything
   def parse(
         <<0xFF, 0x54, hour::integer, min::integer, sec::integer, fr::integer-16, ff::integer,
           rest::binary>>
@@ -130,7 +136,7 @@ defmodule SMF.Event do
   end
 
   def parse(<<0xFF, 0x59, 0x02, sf::signed-integer, mi::integer, rest::binary>>) do
-    {%{type: :key_signature, signature: KeySignature.decode(sf, mi)}, rest}
+    {%{type: :key_signature, sharps: sf, mi: mi, signature: KeySignature.decode(sf, mi)}, rest}
   end
 
   def parse(<<0xFF, 0x7F, rest::binary>>) do
